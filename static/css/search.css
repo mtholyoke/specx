@@ -1,5 +1,11 @@
 body{background-color:#FFF;}
 #Content{margin: 7% 7%;}
-.header{padding: 1em 0;}
+.header{padding: 0.5em 0;}
 .highlight{color:#1e5cbf !important; font-size: 2em}
-.subheader{font-size:1.5em; padding: 1.5em}
+.subheader{font-size:1.5em; padding: 0.5em}
+.resultSet ul{ margin: 0px; padding:0 0.3em; }
+.resultSet{border:1px solid #ebebeb; border-radius: 4px; box-shadow: 1px 1px #ededed; padding:0.5em; margin: 0.5em;}
+.left, .right{width: 45%}
+.sample_entry{float:left;}
+.sample_owner{float:right; color: #0b3baa;}
+.listitem{float:left;

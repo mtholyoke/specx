@@ -19,8 +19,8 @@ def groupview(group_folder):
 
 @app.route("/sample/<sample_name>")
 def sampleview(sample_name):
-	sample_list, name, group, dana_group, owner = load_mossbauer.get_sample(sample_name)
-	return render_template('sample.html', sampledata=sample_list, name=name, group=group, dana_group=dana_group, owner=owner)
+	sample_list, name, group, dana_group, owner, pubs = load_mossbauer.get_sample(sample_name)
+	return render_template('sample.html', sampledata=sample_list, name=name, group=group, dana_group=dana_group, owner=owner, pubs=pubs)
 
 @app.route("/search/<query>")
 def searchview(query):

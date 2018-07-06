@@ -10,8 +10,8 @@ import re
 
 cache = Cache()
 
-#SPECTRA_PATH = 'A:/UMass-MS-(31245724)/Superman - Mats/Spectrum Explorer/spectra/';
-SPECTRA_PATH = '/srv/nfs/common/spectra/';
+SPECTRA_PATH = 'A:/UMass-MS-(31245724)/Superman - Mats/Spectrum Explorer/spectra/';
+#SPECTRA_PATH = '/srv/nfs/common/spectra/';
 
 def to_digit(text):
     return int(text) if text.isdigit() else text
@@ -47,6 +47,7 @@ def load_data():
 			sample.group_folder = row[7]
 			sample.perc_Comp = row[8]
 			sample.owner = row[10]
+			sample.pubs = row[11]
 			sample.datafile_display_link = '/datafile/'+sample.sample_no
 			sample.textfile_display_link = '/textfile/'+sample.sample_no
 			sample.sampleurl = SPECTRA_PATH + 'Mossbauer/MHC/original/' + sample.sample_no + '.cnt'
@@ -82,6 +83,7 @@ def get_samples_for_group(group_folder):
 		sampleset.weight = s.weight
 		sampleset.is_post = s.is_post
 		sampleset.perc_Comp = s.perc_Comp
+		sampleset.owner = s.owner
 		sampleset.url = urllib.parse.quote_plus(s.sample_name)
 
 		samples_set.append(sampleset)
@@ -96,7 +98,8 @@ def get_sample(sample_name):
 	group = sample_list[0].group_folder
 	dana_group = sample_list[0].dana_group
 	owner = sample_list[0].owner
-	return sample_list, name, group, dana_group,owner
+	pubs = sample_list[0].pubs
+	return sample_list, name, group, dana_group,owner, pubs
 
 def get_sample_temperature(sample_no):
 	moss_list = load_data()
@@ -165,6 +168,7 @@ def searchResult(query):
 		sampleset.weight = s.weight
 		sampleset.is_post = s.is_post
 		sampleset.perc_Comp = s.perc_Comp
+		sampleset.owner = s.owner
 		sampleset.url = urllib.parse.quote_plus(s.sample_name)
 
 		samples_set.append(sampleset)

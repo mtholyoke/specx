@@ -4,7 +4,7 @@
 {% endblock%}
 {% block body %}
 	<div class='subcontent'>
-		<div class='left'>
+		<div class='left groupSet'>
 			<h2> Groups </h2>
 			<ul>
 			{% for group in data %}
@@ -12,11 +12,14 @@
 			{% endfor %}
 			</ul>
 		</div>
-		<div class='right'>
+		<div class='right sampleSet'>
 			<ul>
 			<h2> {{ group_folder }}</h2>
 			{% for sampleset in sampledata %}
-			    <li class='listitem'><a href=../sample/{{ sampleset.url }}>{{ sampleset.sample_name }}</a></li>
+			    <li class='listitem'>
+			    	<a class='sample_entry' href=../sample/{{ sampleset.url }}>{{ sampleset.sample_name }}</a>
+			    	<span class='sample_owner'> {{ sampleset.owner }}</span>
+			    </li>
 			{% endfor %}
 			</ul>
 		</div>
