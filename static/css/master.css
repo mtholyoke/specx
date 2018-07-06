@@ -1,0 +1,126 @@
+:focus {outline:none;} /*Chrome s functionality out*/
+table{white-space: inherit; line-height: inherit; font-weight: inherit;font-size: inherit;font-variant: inherit;font-style: inherit;}
+input, textarea, keygen, select, button{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; -webkit-font-smoothing: antialiased;border: none; background-color: inherit;color:inherit}
+form, fieldset, legend, label, input{ margin: 0; padding: 0;}
+body{margin:0; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; cursor:default; color: #474747; -webkit-font-smoothing: antialiased;}
+p{margin: 1px 1px 1px 0}
+
+
+/*Common Do not change*/
+.left{float:left; width:30%; vertical-align: middle;}
+.right{float:right; width:40%; vertical-align: middle;}
+.center{margin: auto;width:20%;vertical-align: middle}
+
+/*Box Shadows*/
+.boxShadow{box-shadow: 0 0 4px #AFAFAF;margin-bottom: 12px;}
+.feedShadow{box-shadow: 0 0 2px #AFAFAF}
+.deepShadow{box-shadow: 0 0 15px #000}
+
+/*Lines - Not for text box*/
+.border{border:1px solid #E2E2E2}
+.borderBottom{border-bottom: 1px solid #E2E2E2}
+.borderLeft{border-left: 1px solid #E2E2E2}
+.borderTop{border-top: 1px solid #E2E2E2}
+.borderRight{border-right: 1px solid #E2E2E2}
+
+/*Border Radius*/
+.straightBox{border-radius:2px;}
+.curvedBox{border-radius:4px;}
+
+/*Links Reset*/
+a:link, a:visited, a:hover, a:active {
+  text-decoration: none; color: #173668;
+}
+
+/*Header Style*/
+#Header{background-color: #ededed; color:#474747 !important; vertical-align: middle;height: 60px; width: 100%; padding: 0 1em; box-sizing: border-box; position: fixed;box-shadow:0 1.5px 1px #828282;z-index: 1000; top: 0;}
+#Header .left{float:left; vertical-align: middle;}
+#Header .left h2{color:#474747;}
+#Header .right{float:right; text-align: right;vertical-align: middle; margin-top:0.5em;}
+#Header .center{text-align: left; vertical-align: middle}
+#Logo .left{display:inline}
+#headerRight > span {margin: 0 2px;}
+#headerRight > span:last-child{margin-right: 0 !important}
+/*Content*/
+#Content{display: block; box-sizing: border-box; min-height: 100%; background-color: #FFF; margin-top: 1px; line-height: 16px; margin-top:10%;}
+
+#compareGlobal{float:right;}
+
+.button{border-radius:4px; padding:0.8em; color:#FFF;background-color:#20beff;border:1px solid #20beff  ;font-size:0.8em; width:6em; 
+cursor: pointer; transition: background-color 0.5s ease;  box-shadow: 0 0 4px #AFAFAF; text-align:center; margin:2% 0;}
+.button:hover{background-color: #198c5e;border:1px solid #198c5e; transition: background-color 0.5s ease}
+
+.textBox {border:1px solid #E6E6E6; border-radius: 3px; background-color: #FFF ; transition: border-color 0.2s ease}
+.textbox:focus{border-color: #1e5cbf !important; transition: border-color 0.2s ease; background-color: #FFF !important}
+.textbox:hover{border-color: #666666; transition: border-color 0.2s ease}
+/*Search Box*/
+input[type=text] {
+	padding: 0.4em;
+	height:2.5em;
+    width: 75%;
+    float:left;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+    border-radius:4px;
+    margin-bottom:1%;
+}
+
+.listitem{    display: block; padding: 0.3em 1em; border-bottom: 1px solid #e2e2e2; width: 90%; }
+.listitem:nth-child(even){background-color:#dddddd}
+.listitem:nth-child(odd){background-color:#adabab }
+.listitem:last-child{border-bottom: none}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow-y: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 85%;
+    height:60%;
+    overflow-y: scroll;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#modalSpace, .capsule{text-align: center; padding: 0.2em 0;display: block;}
+.subsamplelink{display: block; }
+
+.block{float:left; width:20%; padding: 1%; margin: 1%;text-align: center}
+.modalblock{float:left; width:29%; padding: 1%; margin: 1%;text-align: center}
+.line{ fill: none; stroke: #0c387f; stroke-width: 1; }
+.axeslabel{font-size:0.7em;}
+.tick line{stroke: #c9c9c9}
+.inline{display:inline;}
+.highlight{color:#1e5cbf !important; text-decoration: underline;}
+.sample{display: block}
+.removesample, .removeall{color:red; cursor: pointer; text-decoration: none; transition-duration: 0.5s ease}
+.removesample:hover, .removeall:hover{text-decoration: underline;transition-duration: 0.5s ease}

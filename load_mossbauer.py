@@ -1,0 +1,172 @@
+from objects import mossbauer_sample as m
+from objects import mossbauer_sample_set as mset
+from cacheout import Cache
+import urllib.parse
+import numpy as np
+import xlrd
+import os.path
+import csv
+import re
+
+cache = Cache()
+
+#SPECTRA_PATH = 'A:/UMass-MS-(31245724)/Superman - Mats/Spectrum Explorer/spectra/';
+SPECTRA_PATH = '/srv/nfs/common/spectra/';
+
+def to_digit(text):
+    return int(text) if text.isdigit() else text
+
+def load_data():
+	mossbauer_sample_list = cache.get('moss_sample_list')
+	if mossbauer_sample_list is not None:
+		return mossbauer_sample_list
+	else:
+		mossbauer_sample_list = []
+		file = SPECTRA_PATH + 'Mossbauer/MHC/mlogbook.xlsx'
+		offset = 1;
+		workbook = xlrd.open_workbook(file)
+		worksheet = workbook.sheet_by_index(0)
+
+		rows = []
+		for i, row in enumerate(range(worksheet.nrows)):
+		    if i <= offset:  # (Optionally) skip headers
+		        continue
+		    r = []
+		    for j, col in enumerate(range(worksheet.ncols)):
+		        r.append(worksheet.cell_value(i, j))
+		    rows.append(r)
+
+		for row in rows:
+			sample = m.mossbauer_sample()
+			sample.sample_no = str(row[0]).replace('.0','')
+			sample.temperature = to_digit(str(row[2]).replace('.0','')) 
+			sample.sample_name = row[3]
+			sample.weight = row[4]
+			sample.is_post = row[5]
+			sample.dana_group = row[6]
+			sample.group_folder = row[7]
+			sample.perc_Comp = row[8]
+			sample.owner = row[10]
+			sample.datafile_display_link = '/datafile/'+sample.sample_no
+			sample.textfile_display_link = '/textfile/'+sample.sample_no
+			sample.sampleurl = SPECTRA_PATH + 'Mossbauer/MHC/original/' + sample.sample_no + '.cnt'
+
+			mossbauer_sample_list.append(sample)
+		cache.set('moss_sample_list',mossbauer_sample_list,10000)
+	return mossbauer_sample_list
+
+def get_data_file(cnt_no):
+	return SPECTRA_PATH + 'Mossbauer/MHC/original/' + cnt_no + '.cnt'
+
+def get_text_file(cnt_no):
+	return SPECTRA_PATH + 'Mossbauer/MHC/original/' + cnt_no + '.txt'
+
+def get_group_names():
+	moss_list = load_data()
+	seen = set()
+	unique = [mbs.group_folder for mbs in moss_list if mbs.group_folder not in seen and not seen.add(mbs.group_folder)]
+	unique.sort()
+	return unique
+
+def get_samples_for_group(group_folder):
+	moss_list = load_data()
+	seen = set()
+	samples = [mbs for mbs in moss_list if mbs.group_folder == group_folder and mbs.sample_name not in seen and not seen.add(mbs.sample_name) and mbs.is_post == 'Y']
+	samples.sort(key=lambda x: x.sample_name, reverse=False)
+	samples_set = []
+	for s in samples:
+		sampleset = mset.mossbauer_sample_set()
+		sampleset.sample_name = s.sample_name
+		sampleset.dana_group = s.dana_group
+		sampleset.group_folder = s.group_folder
+		sampleset.weight = s.weight
+		sampleset.is_post = s.is_post
+		sampleset.perc_Comp = s.perc_Comp
+		sampleset.url = urllib.parse.quote_plus(s.sample_name)
+
+		samples_set.append(sampleset)
+	return samples_set
+
+def get_sample(sample_name):
+	decoded_sample = urllib.parse.unquote_plus(sample_name)
+	moss_list = load_data()
+	sample_list = [mbs for mbs in moss_list if mbs.sample_name == decoded_sample]
+	sample_list.sort(key=lambda x: x.temperature, reverse=False)
+	name = sample_list[0].sample_name
+	group = sample_list[0].group_folder
+	dana_group = sample_list[0].dana_group
+	owner = sample_list[0].owner
+	return sample_list, name, group, dana_group,owner
+
+def get_sample_temperature(sample_no):
+	moss_list = load_data()
+	sample_temperature = [s for s in moss_list if s.sample_no == sample_no]
+	name = sample_temperature[0].sample_name
+	temperature = sample_temperature[0].temperature
+	plot_data = get_sample_plot_data(sample_temperature[0])
+	return {'sample_no':sample_no, 'sample_name':name, 'temperature':temperature, 'plot':plot_data}
+
+def spectrum_plot_data(sample_name):
+	decoded_sample = urllib.parse.unquote_plus(sample_name)
+	moss_list = load_data()
+	sample_list = [mbs for mbs in moss_list if mbs.sample_name == decoded_sample]
+	sample_list.sort(key=lambda x: x.temperature, reverse=False)
+	sample_set_plot = [];
+	for sample in sample_list:
+		plot_data = get_sample_plot_data(sample)
+		sample_set_plot.append({'sample_no':sample.sample_no, 'plot': plot_data, 'temperature':sample.temperature, 'sample_name':decoded_sample})
+
+	return sample_set_plot
+
+def get_sample_plot_data(sample):
+	file = sample.sampleurl
+	intensity_list = []
+	plot_data = []
+	midpoint = 0
+	gradient = 0
+	with open(file,'r') as tsvin:
+	    tsvin = csv.reader(tsvin, delimiter='\t')
+
+	    for i,row in enumerate(tsvin):
+	    	for col in row:
+	    		if i == 9:
+	    			listvals = col.split(' ')
+	    			midpoint = float(listvals[2])
+	    			gradient = float(listvals[4])
+	    		
+	    		if i > 9:
+	    			intensity_list.append(float(col.strip()))
+
+	max_spec_intensity = max(intensity_list)
+	for i, channel_intensity in enumerate(intensity_list):
+		channel = i+1
+		x_val = (channel - midpoint)*gradient
+		y_val = 1-(channel_intensity/max_spec_intensity)
+		plot_data.append({'x':x_val, 'y':y_val})
+	
+	return plot_data
+
+def searchResult(query):
+	moss_list = load_data()
+	seen = set()
+	search = []
+	group = [mbs.group_folder for mbs in moss_list if query.lower() in mbs.group_folder.lower() and mbs.group_folder not in seen and not seen.add(mbs.group_folder) ]
+	group.sort()
+
+	sample_seen = set()
+	samples = [mbs for mbs in moss_list if mbs.sample_name not in sample_seen and not sample_seen.add(mbs.sample_name) and mbs.is_post == 'Y' and query.lower() in mbs.sample_name.lower()]
+	samples.sort(key=lambda x: x.sample_name, reverse=False)
+	samples_set = []
+	for s in samples:
+		sampleset = mset.mossbauer_sample_set()
+		sampleset.sample_name = s.sample_name
+		sampleset.dana_group = s.dana_group
+		sampleset.group_folder = s.group_folder
+		sampleset.weight = s.weight
+		sampleset.is_post = s.is_post
+		sampleset.perc_Comp = s.perc_Comp
+		sampleset.url = urllib.parse.quote_plus(s.sample_name)
+
+		samples_set.append(sampleset)
+
+	return group,samples_set

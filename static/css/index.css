@@ -1,0 +1,6 @@
+body{background-color:#FFF;}
+#Content{margin: 7% 7%;}
+.listBox{padding:2%; background-color:#FFF;min-height: 800px}
+.left{float:left; width:45%; vertical-align: middle;}
+.right{float:right; width:45%; vertical-align: middle;}
+.headerCenter{text-align: center;}
