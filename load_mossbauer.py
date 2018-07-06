@@ -10,8 +10,8 @@ import re
 
 cache = Cache()
 
-SPECTRA_PATH = 'A:/UMass-MS-(31245724)/Superman - Mats/Spectrum Explorer/spectra/';
-#SPECTRA_PATH = '/srv/nfs/common/spectra/';
+#SPECTRA_PATH = 'A:/UMass-MS-(31245724)/Superman - Mats/Spectrum Explorer/spectra/';
+SPECTRA_PATH = '/srv/nfs/common/spectra/';
 
 def to_digit(text):
     return int(text) if text.isdigit() else text
@@ -72,7 +72,7 @@ def get_group_names():
 def get_samples_for_group(group_folder):
 	moss_list = load_data()
 	seen = set()
-	samples = [mbs for mbs in moss_list if mbs.group_folder == group_folder and mbs.sample_name not in seen and not seen.add(mbs.sample_name) and mbs.is_post == 'Y']
+	samples = [mbs for mbs in moss_list if mbs.group_folder.lower() == group_folder.lower() and mbs.sample_name not in seen and not seen.add(mbs.sample_name) and mbs.is_post == 'Y']
 	samples.sort(key=lambda x: x.sample_name, reverse=False)
 	samples_set = []
 	for s in samples:
@@ -92,7 +92,7 @@ def get_samples_for_group(group_folder):
 def get_sample(sample_name):
 	decoded_sample = urllib.parse.unquote_plus(sample_name)
 	moss_list = load_data()
-	sample_list = [mbs for mbs in moss_list if mbs.sample_name == decoded_sample]
+	sample_list = [mbs for mbs in moss_list if mbs.sample_name.lower() == decoded_sample.lower()]
 	sample_list.sort(key=lambda x: x.temperature, reverse=False)
 	name = sample_list[0].sample_name
 	group = sample_list[0].group_folder
@@ -103,7 +103,7 @@ def get_sample(sample_name):
 
 def get_sample_temperature(sample_no):
 	moss_list = load_data()
-	sample_temperature = [s for s in moss_list if s.sample_no == sample_no]
+	sample_temperature = [s for s in moss_list if s.sample_no.lower() == sample_no.lower()]
 	name = sample_temperature[0].sample_name
 	temperature = sample_temperature[0].temperature
 	plot_data = get_sample_plot_data(sample_temperature[0])
@@ -112,7 +112,7 @@ def get_sample_temperature(sample_no):
 def spectrum_plot_data(sample_name):
 	decoded_sample = urllib.parse.unquote_plus(sample_name)
 	moss_list = load_data()
-	sample_list = [mbs for mbs in moss_list if mbs.sample_name == decoded_sample]
+	sample_list = [mbs for mbs in moss_list if mbs.sample_name.lower() == decoded_sample.lower()]
 	sample_list.sort(key=lambda x: x.temperature, reverse=False)
 	sample_set_plot = [];
 	for sample in sample_list:
