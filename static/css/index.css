@@ -1,5 +1,5 @@
 body{background-color:#FFF;}
-#Content{margin: 7% 7%;}
+#Content{margin: 5% 4%;}
 .listBox{padding:2%; background-color:#FFF;min-height: 800px}
 .left{float:left; width:45%; vertical-align: middle;}
 .right{float:right; width:45%; vertical-align: middle;}
@@ -8,3 +8,5 @@ body{background-color:#FFF;}
 .sample_owner{float:right; color: #0b3baa;}
 .listitem{float:left;}
 .groupSet, .sampleSet{border:1px solid #ebebeb; border-radius: 4px; box-shadow: 1px 1px #ededed; padding:1em;}
+.groupSet{width: 30%}
+.sampleSet{width: 63%}

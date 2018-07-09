@@ -2,7 +2,7 @@
 table{white-space: inherit; line-height: inherit; font-weight: inherit;font-size: inherit;font-variant: inherit;font-style: inherit;}
 input, textarea, keygen, select, button{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; -webkit-font-smoothing: antialiased;border: none; background-color: inherit;color:inherit}
 form, fieldset, legend, label, input{ margin: 0; padding: 0;}
-body{margin:0; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; cursor:default; color: #474747; -webkit-font-smoothing: antialiased;}
+body{margin:0; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; cursor:default; color: #474747; -webkit-font-smoothing: antialiased; font-size: 1.1em; line-height: 1.1em}
 p{margin: 1px 1px 1px 0}
 
 
@@ -42,7 +42,7 @@ a:link, a:visited, a:hover, a:active {
 #headerRight > span {margin: 0 2px;}
 #headerRight > span:last-child{margin-right: 0 !important}
 /*Content*/
-#Content{display: block; box-sizing: border-box; min-height: 100%; background-color: #FFF; margin-top: 1px; line-height: 16px; margin-top:10%;}
+#Content{display: block; box-sizing: border-box; min-height: 100%; background-color: #FFF; margin-top: 1px; margin-top:10%;}
 
 #compareGlobal{float:right;}
 
@@ -50,7 +50,7 @@ a:link, a:visited, a:hover, a:active {
 cursor: pointer; transition: background-color 0.5s ease;  box-shadow: 0 0 4px #AFAFAF; text-align:center; margin:2% 0;}
 .button:hover{background-color: #198c5e;border:1px solid #198c5e; transition: background-color 0.5s ease}
 
-.textBox {border:1px solid #E6E6E6; border-radius: 3px; background-color: #FFF ; transition: border-color 0.2s ease}
+.textBox {border:1px solid #E6E6E6; border-radius: 3px; background-color: #FFF !important ; transition: border-color 0.2s ease}
 .textbox:focus{border-color: #1e5cbf !important; transition: border-color 0.2s ease; background-color: #FFF !important}
 .textbox:hover{border-color: #666666; transition: border-color 0.2s ease}
 /*Search Box*/
@@ -63,10 +63,13 @@ input[type=text] {
     transition: width 0.4s ease-in-out;
     border-radius:4px;
     margin-bottom:1%;
+    background-color: #FFF !important 
 }
 
+ul{padding:0.3em; margin: 0}
 .listitem{display: block; padding: 0.6em 1em; border-bottom: 1px solid #e2e2e2; width: 90%; }
 .listitem:last-child{border-bottom: none}
+.listitem:hover{background-color: #ededed}
 
 /* The Modal (background) */
 .modal {

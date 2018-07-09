@@ -67,12 +67,16 @@ def get_group_names():
 	seen = set()
 	unique = [mbs.group_folder for mbs in moss_list if mbs.group_folder not in seen and not seen.add(mbs.group_folder)]
 	unique.sort()
-	return unique
+	group_list = []
+	for g in unique:
+		group_list.append({'groupname':g, 'groupurl': urllib.parse.quote_plus(g, safe='')})
+	return group_list
 
 def get_samples_for_group(group_folder):
+	decoded_group_folder = urllib.parse.unquote_plus(group_folder)
 	moss_list = load_data()
 	seen = set()
-	samples = [mbs for mbs in moss_list if mbs.group_folder.lower() == group_folder.lower() and mbs.sample_name not in seen and not seen.add(mbs.sample_name) and mbs.is_post == 'Y']
+	samples = [mbs for mbs in moss_list if mbs.group_folder.lower() == decoded_group_folder.lower() and mbs.sample_name not in seen and not seen.add(mbs.sample_name) and mbs.is_post == 'Y']
 	samples.sort(key=lambda x: x.sample_name, reverse=False)
 	samples_set = []
 	for s in samples:
@@ -87,7 +91,7 @@ def get_samples_for_group(group_folder):
 		sampleset.url = urllib.parse.quote_plus(s.sample_name)
 
 		samples_set.append(sampleset)
-	return samples_set
+	return samples_set, decoded_group_folder
 
 def get_sample(sample_name):
 	decoded_sample = urllib.parse.unquote_plus(sample_name)

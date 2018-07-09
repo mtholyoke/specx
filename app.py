@@ -14,8 +14,8 @@ def index():
 @app.route("/group/<group_folder>")
 def groupview(group_folder):
 	group_folders = load_mossbauer.get_group_names()
-	samples = load_mossbauer.get_samples_for_group(group_folder)
-	return render_template('index.html',sampledata=samples, data=group_folders,group_folder=group_folder)
+	samples, decoded_group_folder = load_mossbauer.get_samples_for_group(group_folder)
+	return render_template('index.html',sampledata=samples, data=group_folders,group_folder=decoded_group_folder)
 
 @app.route("/sample/<sample_name>")
 def sampleview(sample_name):

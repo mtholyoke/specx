@@ -7,8 +7,8 @@
 		<div class='left groupSet'>
 			<h2> Groups </h2>
 			<ul>
-			{% for group in data %}
-			    <li class='listitem'><a href=../group/{{ group }}>{{ group }}</a></li>
+			{% for g in data %}
+			    <li class='listitem'><a href=../group/{{ g.groupurl }}>{{ g.groupname }}</a></li>
 			{% endfor %}
 			</ul>
 		</div>
