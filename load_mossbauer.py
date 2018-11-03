@@ -7,10 +7,11 @@ import xlrd
 import os.path
 import csv
 import re
+import os.path, time
 
 cache = Cache()
 
-#SPECTRA_PATH = 'A:/UMass-MS-(31245724)/Superman - Mats/Spectrum Explorer/spectra/';
+#SPECTRA_PATH = 'A:/UMass Projects/Superman - Mats/Spectrum Explorer/spectra/';
 SPECTRA_PATH = '/srv/nfs/common/spectra/';
 
 def to_digit(text):
@@ -51,6 +52,10 @@ def load_data():
 			sample.datafile_display_link = '/datafile/'+sample.sample_no
 			sample.textfile_display_link = '/textfile/'+sample.sample_no
 			sample.sampleurl = SPECTRA_PATH + 'Mossbauer/MHC/original/' + sample.sample_no + '.cnt'
+			sample.last_modified_time = "No File"
+			if os.path.exists(sample.sampleurl):
+				sample.last_modified_time = time.ctime(os.path.getmtime(sample.sampleurl))
+
 
 			mossbauer_sample_list.append(sample)
 		cache.set('moss_sample_list',mossbauer_sample_list,10000)
@@ -131,6 +136,11 @@ def get_sample_plot_data(sample):
 	plot_data = []
 	midpoint = 0
 	gradient = 0
+
+	# SOme files are not found and this affects all the other samples in sample set
+	if not os.path.exists(file):
+		return []
+
 	with open(file,'r') as tsvin:
 	    tsvin = csv.reader(tsvin, delimiter='\t')
 
@@ -154,6 +164,7 @@ def get_sample_plot_data(sample):
 	return plot_data
 
 def searchResult(query):
+	#Only on sample name and group folder
 	moss_list = load_data()
 	seen = set()
 	search = []
