@@ -14,15 +14,16 @@
 	</div>
 
 	{% for sample in sampledata %}
-	<div class='block border curvedBox graphbox' d-sample='{{sample.sample_no}}'>
-		<div class='check'>
-		      <input class='checkmark' type="checkbox" d-sample='{{sample.sample_no}}'>
-		</div>
-		<svg id=p{{sample.sample_no}} d-sample='{{sample.sample_no}}' class='samplesvg' height=170 width=270></svg><br />
-		<a class='sample' href={{sample.datafile_display_link}}> {{sample.temperature}}(K) Dataset (Counts)</a>
-		<a class='sample' href={{sample.textfile_display_link}}> {{sample.temperature}}(K) Dataset (Text)</a>
-		<p>  {{sample.last_modified_time}} </p>
-	</div>
+    <div class='block border curvedBox graphbox' d-sample='{{sample.sample_no}}'>
+        <div class='check'>
+            <input class='checkmark' type="checkbox" d-sample='{{sample.sample_no}}'>
+        </div>
+        <svg id=p{{sample.sample_no}} d-sample='{{sample.sample_no}}' class='samplesvg' height=170 width=270></svg><br />
+        <a class='sample' href={{sample.datafile_display_link}}> {{sample.temperature}}(K) Dataset (Counts)</a>
+        <a class='sample' href={{sample.textfile_display_link}}> {{sample.temperature}}(K) Dataset (Text)</a>
+        <p> Time Sample Taken: {{sample.sampletakentime}}</p>
+        <p> Last Modified Time: {{sample.last_modified_time}} </p>
+    </div>
 	{% endfor %}
 
 	<script type="text/javascript">

@@ -4,9 +4,14 @@ body{background-color:#FFF;}
 .left{float:left; width:45%; vertical-align: middle;}
 .right{float:right; width:45%; vertical-align: middle;}
 .headerCenter{text-align: center;}
-.sample_entry{float:left;}
+.sample_entry{float:left; }
 .sample_owner{float:right; color: #0b3baa;}
-.listitem{float:left;}
+.listitem {
+    float: left;
+    cursor: pointer
+}
 .groupSet, .sampleSet{border:1px solid #ebebeb; border-radius: 4px; box-shadow: 1px 1px #ededed; padding:1em;}
 .groupSet{width: 30%}
 .sampleSet{width: 63%}
+.bolden {font-weight:bold}
+.unbolden {font-weight:normal}

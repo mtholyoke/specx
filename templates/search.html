@@ -19,7 +19,7 @@
 				<ul>
 				{% for s in sampleset %}
 				    <li class='listitem'>
-				    	<a class='sample_entry' href=/sample/{{s.url}}>{{ s.sample_name }}</a>
+				    	<a class='sample_entry {{s.temp_class}}' href=/sample/{{s.url}}>{{ s.sample_name }}</a>
 				    	<span class='sample_owner'> {{ s.owner }}</span>
 				    </li>
 				{% endfor %}

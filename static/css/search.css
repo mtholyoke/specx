@@ -8,4 +8,12 @@ body{background-color:#FFF;}
 .left, .right{width: 45%}
 .sample_entry{float:left;}
 .sample_owner{float:right; color: #0b3baa;}
-.listitem{float:left;
+.listitem {float: left;}
+
+.bolden {
+    font-weight: bold
+}
+
+.unbolden {
+    font-weight: normal
+}

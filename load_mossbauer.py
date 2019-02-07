@@ -8,11 +8,11 @@ import os.path
 import csv
 import re
 import os.path, time
-
+from datetime import datetime
 cache = Cache()
 
-#SPECTRA_PATH = 'A:/UMass Projects/Superman - Mats/Spectrum Explorer/spectra/';
-SPECTRA_PATH = '/srv/nfs/common/spectra/';
+SPECTRA_PATH = 'A:/UMass Projects/Superman - Mats/Spectrum Explorer/spectra/';
+#SPECTRA_PATH = '/srv/nfs/common/spectra/';
 
 def to_digit(text):
     return int(text) if text.isdigit() else text
@@ -40,18 +40,20 @@ def load_data():
 		for row in rows:
 			sample = m.mossbauer_sample()
 			sample.sample_no = str(row[0]).replace('.0','')
-			sample.temperature = to_digit(str(row[2]).replace('.0','')) 
-			sample.sample_name = row[3]
-			sample.weight = row[4]
-			sample.is_post = row[5]
-			sample.dana_group = row[6]
-			sample.group_folder = row[7]
-			sample.perc_Comp = row[8]
-			sample.owner = row[10]
-			sample.pubs = row[11]
+			sample.temperature = to_digit(str(row[1]).replace('.0','')) 
+			sample.sample_name = row[2]
+			sample.weight = row[3]
+			sample.is_post = row[4]
+			sample.dana_group = row[5]
+			sample.group_folder = row[6]
+			sample.perc_Comp = row[7]
+			sample.owner = row[9]
+			sample.pubs = row[10]			
+			sample.multitemp = row[11]
 			sample.datafile_display_link = '/datafile/'+sample.sample_no
 			sample.textfile_display_link = '/textfile/'+sample.sample_no
 			sample.sampleurl = SPECTRA_PATH + 'Mossbauer/MHC/original/' + sample.sample_no + '.cnt'
+			sample.sampletakentime = 'TBD'
 			sample.last_modified_time = "No File"
 			if os.path.exists(sample.sampleurl):
 				sample.last_modified_time = time.ctime(os.path.getmtime(sample.sampleurl))
@@ -93,13 +95,15 @@ def get_samples_for_group(group_folder):
 		sampleset.is_post = s.is_post
 		sampleset.perc_Comp = s.perc_Comp
 		sampleset.owner = s.owner
-		sampleset.url = urllib.parse.quote_plus(s.sample_name)
+		sampleset.url = urllib.parse.quote_plus(s.sample_name, safe='')
+		sampleset.temp_class = 'bolden' if s.multitemp == 'Y' else 'unbolden'
 
 		samples_set.append(sampleset)
 	return samples_set, decoded_group_folder
 
 def get_sample(sample_name):
 	decoded_sample = urllib.parse.unquote_plus(sample_name)
+	print(decoded_sample)
 	moss_list = load_data()
 	sample_list = [mbs for mbs in moss_list if mbs.sample_name.lower() == decoded_sample.lower()]
 	sample_list.sort(key=lambda x: x.temperature, reverse=False)
@@ -184,7 +188,8 @@ def searchResult(query):
 		sampleset.is_post = s.is_post
 		sampleset.perc_Comp = s.perc_Comp
 		sampleset.owner = s.owner
-		sampleset.url = urllib.parse.quote_plus(s.sample_name)
+		sampleset.url = urllib.parse.quote_plus(s.sample_name)        
+		sampleset.temp_class = 'bolden' if s.multitemp == 'Y' else 'unbolden'
 
 		samples_set.append(sampleset)
 
