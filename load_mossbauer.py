@@ -11,8 +11,8 @@ import os.path, time
 from datetime import datetime
 cache = Cache()
 
-SPECTRA_PATH = 'A:/UMass Projects/Superman - Mats/Spectrum Explorer/spectra/';
-#SPECTRA_PATH = '/srv/nfs/common/spectra/';
+#SPECTRA_PATH = 'A:/UMass Projects/Superman - Mats/Spectrum Explorer/spectra/';
+SPECTRA_PATH = '/srv/nfs/common/spectra/';
 
 def to_digit(text):
     return int(text) if text.isdigit() else text

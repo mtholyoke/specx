@@ -157,6 +157,6 @@ function loadMultiSamples(svg, dataArray,  XminOfMin, XmaxOfMax, YminOfMin, Ymax
 	});
 }
 
-$(".sds").each(function () {
+$(".sl").each(function () {
     $(this).attr('href',' ../sample/'+encodeURIComponent($(this).text()));
 });
