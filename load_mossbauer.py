@@ -11,8 +11,8 @@ import os.path, time
 from datetime import datetime
 cache = Cache()
 
-#SPECTRA_PATH = 'A:/UMass Projects/Superman - Mats/Spectrum Explorer/spectra/';
-SPECTRA_PATH = '/srv/nfs/common/spectra/';
+SPECTRA_PATH = 'A:/UMass Projects/Superman - Mats/Spectrum Explorer/spectra/';
+#SPECTRA_PATH = '/srv/nfs/common/spectra/';
 
 def to_digit(text):
     return int(text) if text.isdigit() else text
@@ -98,15 +98,13 @@ def get_samples_for_group(group_folder):
 		sampleset.is_post = s.is_post
 		sampleset.perc_Comp = s.perc_Comp
 		sampleset.owner = s.owner
-		sampleset.url = urllib.parse.quote_plus(s.sample_name, safe='')
 		sampleset.temp_class = 'bolden' if s.multitemp == 'Y' else 'unbolden'
 
 		samples_set.append(sampleset)
 	return samples_set, decoded_group_folder
 
 def get_sample(sample_name):
-	decoded_sample = urllib.parse.unquote_plus(sample_name)
-	print(decoded_sample)
+	decoded_sample = sample_name
 	moss_list = load_data()
 	sample_list = [mbs for mbs in moss_list if mbs.sample_name.lower() == decoded_sample.lower()]
 	sample_list.sort(key=lambda x: x.temperature, reverse=False)
@@ -126,7 +124,7 @@ def get_sample_temperature(sample_no):
 	return {'sample_no':sample_no, 'sample_name':name, 'temperature':temperature, 'plot':plot_data}
 
 def spectrum_plot_data(sample_name):
-	decoded_sample = urllib.parse.unquote_plus(sample_name)
+	decoded_sample = sample_name
 	moss_list = load_data()
 	sample_list = [mbs for mbs in moss_list if mbs.sample_name.lower() == decoded_sample.lower()]
 	sample_list.sort(key=lambda x: x.temperature, reverse=False)

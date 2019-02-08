@@ -16,8 +16,8 @@
 			<ul>
 			<h2> {{ group_folder }}</h2>
 			{% for sampleset in sampledata %}
-			    <li class='sl listitem'>
-			    	<span class='sample_entry {{sampleset.temp_class}}' >{{ sampleset.sample_name }}</span>
+			    <li class='listitem'>
+                    <span class='sample_entry {{sampleset.temp_class}}'><a class="sl" href="">{{ sampleset.sample_name }}</a></span></a>
 			    	<span class='sample_owner'> {{ sampleset.owner }}</span>
 			    </li>
 			{% endfor %}

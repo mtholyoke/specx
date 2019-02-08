@@ -157,16 +157,6 @@ function loadMultiSamples(svg, dataArray,  XminOfMin, XmaxOfMax, YminOfMin, Ymax
 	});
 }
 
-$('.sl').click(function () {
-    var sample_name = $(this).find('span:first').text();
-    console.log(sample_name)
-    $.post("/getsample", {
-        jsdata: encodeURIComponent(sample_name)
-    })
-    .done(function (response) {
-        document.write(response);
-    })
-    .fail(function (response) {
-        alert('Error: ' + response.responseText);
-    });
+$(".sds").each(function () {
+    $(this).attr('href',' ../sample/'+encodeURIComponent($(this).text()));
 });

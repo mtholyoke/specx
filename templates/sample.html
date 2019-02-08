@@ -36,14 +36,17 @@
 		var sampleURL = window.location.href.replace('sample','plot')
 
 
-		d3.json(sampleURL, function(data){
-			if(data !==  null){
-				allData = data;
-				var height = 120, width = 200;
-				data.forEach(function(sample){
-					loadSample(d3.select('#p'+sample.sample_no), sample.plot, height, width);
-				});
-			}
+        d3.json(sampleURL, function (error, data) {
+            if (data !== null) {
+                allData = data;
+                var height = 120, width = 200;
+                data.forEach(function (sample) {
+                    loadSample(d3.select('#p' + sample.sample_no), sample.plot, height, width);
+                });
+            }
+            else {
+                console.log(error);
+            }
 		});
 
 		// When the user clicks the map, open the modal -- individual view
@@ -143,8 +146,8 @@
 		})
 
 
-  		function loadSample(svg,data, height, width){
-			var margin = {top: 10, right: 20, bottom: 10, left: 50};
+        function loadSample(svg, data, height, width) {
+            var margin = { top: 10, right: 20, bottom: 10, left: 50 };
 			var group = svg.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 			
 			var xScale = d3.scaleLinear()

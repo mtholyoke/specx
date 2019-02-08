@@ -17,9 +17,8 @@ def groupview(group_folder):
     samples, decoded_group_folder = load_mossbauer.get_samples_for_group(group_folder)
     return render_template('index.html',sampledata=samples, data=group_folders,group_folder=decoded_group_folder)
 
-@app.route('/getsample', methods = ['POST'])
-def get_sample_view():
-    sample_name = request.form['jsdata']
+@app.route('/sample/<sample_name>', methods = ['GET'])
+def get_sample_view(sample_name):
     sample_list, name, group, dana_group, owner, pubs = load_mossbauer.get_sample(sample_name)
     return render_template('sample.html', sampledata=sample_list, name=name, group=group, dana_group=dana_group, owner=owner, pubs=pubs)
 
