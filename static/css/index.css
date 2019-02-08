@@ -6,10 +6,7 @@ body{background-color:#FFF;}
 .headerCenter{text-align: center;}
 .sample_entry{float:left; }
 .sample_owner{float:right; color: #0b3baa;}
-.listitem {
-    float: left;
-    cursor: pointer
-}
+.listitem {float: left;cursor: pointer}
 .groupSet, .sampleSet{border:1px solid #ebebeb; border-radius: 4px; box-shadow: 1px 1px #ededed; padding:1em;}
 .groupSet{width: 30%}
 .sampleSet{width: 63%}

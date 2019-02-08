@@ -25,3 +25,4 @@ input[type='checkbox']:checked:after {
 
 .check{width: 1%}
 .checkmark:hover{ background :#6d8cbf; }
+.time {font-size:0.8em;}

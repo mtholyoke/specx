@@ -11,8 +11,8 @@ import os.path, time
 from datetime import datetime
 cache = Cache()
 
-SPECTRA_PATH = 'A:/UMass Projects/Superman - Mats/Spectrum Explorer/spectra/';
-#SPECTRA_PATH = '/srv/nfs/common/spectra/';
+#SPECTRA_PATH = 'A:/UMass Projects/Superman - Mats/Spectrum Explorer/spectra/';
+SPECTRA_PATH = '/srv/nfs/common/spectra/';
 
 def to_digit(text):
     return int(text) if text.isdigit() else text
@@ -53,7 +53,10 @@ def load_data():
 			sample.datafile_display_link = '/datafile/'+sample.sample_no
 			sample.textfile_display_link = '/textfile/'+sample.sample_no
 			sample.sampleurl = SPECTRA_PATH + 'Mossbauer/MHC/original/' + sample.sample_no + '.cnt'
-			sample.sampletakentime = 'TBD'
+			try:
+				sample.sampletakentime = datetime.strftime(datetime.strptime(sample.sample_no[:6], '%y%m%d'),'%b %d, %Y')
+			except ValueError:
+				sample.sampletakentime = 'TBD'
 			sample.last_modified_time = "No File"
 			if os.path.exists(sample.sampleurl):
 				sample.last_modified_time = time.ctime(os.path.getmtime(sample.sampleurl))

@@ -123,5 +123,6 @@ ul{padding:0.3em; margin: 0}
 .inline{display:inline;}
 .highlight{color:#1e5cbf !important; text-decoration: underline;}
 .sample{display: block}
+.sample:hover {font-weight:bold; transition-duration:0.5s ease;}
 .removesample, .removeall{color:red; cursor: pointer; text-decoration: none; transition-duration: 0.5s ease}
 .removesample:hover, .removeall:hover{text-decoration: underline;transition-duration: 0.5s ease}
