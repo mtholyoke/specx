@@ -13,14 +13,14 @@ def index():
 
 @app.route("/group/<group_folder>", methods=['GET'])
 def groupview(group_folder):
-    group_folders = load_mossbauer.get_group_names()
-    samples, decoded_group_folder = load_mossbauer.get_samples_for_group(group_folder)
-    return render_template('index.html',sampledata=samples, data=group_folders,group_folder=decoded_group_folder)
+	group_folders = load_mossbauer.get_group_names()
+	samples, decoded_group_folder = load_mossbauer.get_samples_for_group(group_folder)
+	return render_template('index.html',sampledata=samples, data=group_folders,group_folder=decoded_group_folder)
 
 @app.route('/sample/<sample_name>', methods = ['GET'])
 def get_sample_view(sample_name):
-    sample_list, name, group, dana_group, owner, pubs = load_mossbauer.get_sample(sample_name)
-    return render_template('sample.html', sampledata=sample_list, name=name, group=group, dana_group=dana_group, owner=owner, pubs=pubs)
+	sample_list, name, group, dana_group, owner, pubs = load_mossbauer.get_sample(sample_name)
+	return render_template('sample.html', sampledata=sample_list, name=name, group=group, dana_group=dana_group, owner=owner, pubs=pubs)
 
 @app.route("/search/<query>")
 def searchview(query):
@@ -49,6 +49,11 @@ def textview(cntno):
 def intensityPlotData(sample_name):
 	plot_data = load_mossbauer.spectrum_plot_data(sample_name)
 	return jsonify(plot_data)
+
+@app.route("/badfiles/", methods=["GET"])
+def getBadFiles():
+	ls_not_book, ls_not_in_server = load_mossbauer.list_badfiles()
+	return render_template('badfiles.html', notbook=ls_not_book, notserver=ls_not_in_server, notbookcount = len(ls_not_book), notservercount = len(ls_not_in_server))
 
 @app.route("/getCompareList", methods=['GET'])  
 def getCompareList():

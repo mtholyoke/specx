@@ -9,13 +9,46 @@ import csv
 import re
 import os.path, time
 from datetime import datetime
+import glob
 cache = Cache()
 
 #SPECTRA_PATH = 'A:/UMass Projects/Superman - Mats/Spectrum Explorer/spectra/';
 SPECTRA_PATH = '/srv/nfs/common/spectra/';
 
 def to_digit(text):
-    return int(text) if text.isdigit() else text
+	return int(text) if text.isdigit() else text
+
+def get_rows_from_excel():
+	file = SPECTRA_PATH + 'Mossbauer/MHC/mlogbook.xlsx'
+	offset = 1;
+	workbook = xlrd.open_workbook(file)
+	worksheet = workbook.sheet_by_index(0)
+
+	rows = []
+	for i, row in enumerate(range(worksheet.nrows)):
+		if i <= offset:  # (Optionally) skip headers
+			continue
+		r = []
+		for j, col in enumerate(range(worksheet.ncols)):
+			r.append(worksheet.cell_value(i, j))
+		rows.append(r)
+	return rows
+
+def list_badfiles():
+	ls_not_in_server = []
+	ls_files_in_book = []
+	rows = get_rows_from_excel()
+	for row in rows:
+		sample = m.mossbauer_sample()
+		sample.sample_no = str(row[0]).replace('.0','')
+		sample.sampleurl = SPECTRA_PATH + 'Mossbauer/MHC/original/' + sample.sample_no + '.cnt'
+		ls_files_in_book.append(sample.sampleurl)
+		if not os.path.exists(sample.sampleurl):
+		#File does not exist
+			ls_not_in_server.append(sample.sampleurl)
+	ls_files_in_dir  = glob.glob(SPECTRA_PATH+'Mossbauer/MHC/original/*.cnt')
+	ls_not_book =  [item for item in ls_files_in_dir if item not in ls_files_in_book]
+	return ls_not_book, ls_not_in_server
 
 def load_data():
 	mossbauer_sample_list = cache.get('moss_sample_list')
@@ -23,19 +56,7 @@ def load_data():
 		return mossbauer_sample_list
 	else:
 		mossbauer_sample_list = []
-		file = SPECTRA_PATH + 'Mossbauer/MHC/mlogbook.xlsx'
-		offset = 1;
-		workbook = xlrd.open_workbook(file)
-		worksheet = workbook.sheet_by_index(0)
-
-		rows = []
-		for i, row in enumerate(range(worksheet.nrows)):
-		    if i <= offset:  # (Optionally) skip headers
-		        continue
-		    r = []
-		    for j, col in enumerate(range(worksheet.ncols)):
-		        r.append(worksheet.cell_value(i, j))
-		    rows.append(r)
+		rows = get_rows_from_excel()
 
 		for row in rows:
 			sample = m.mossbauer_sample()
@@ -60,7 +81,6 @@ def load_data():
 			sample.last_modified_time = "No File"
 			if os.path.exists(sample.sampleurl):
 				sample.last_modified_time = time.ctime(os.path.getmtime(sample.sampleurl))
-
 
 			mossbauer_sample_list.append(sample)
 		cache.set('moss_sample_list',mossbauer_sample_list,10000)

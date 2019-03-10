@@ -47,9 +47,11 @@
     <Content Include="static\css\master.css" />
     <Content Include="static\css\sample.css" />
     <Content Include="static\css\search.css" />
+    <Content Include="static\css\badfiles.css" />
     <Content Include="static\js\d3\compareGlobal.js" />
     <Content Include="static\js\libraries\d3.min.js" />
     <Content Include="static\js\libraries\jquery-3.3.1.min.js" />
+    <Content Include="templates\badfiles.html" />
     <Content Include="templates\index.html" />
     <Content Include="templates\sample.html" />
     <Content Include="templates\search.html" />
