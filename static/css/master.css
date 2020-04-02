@@ -46,7 +46,7 @@ a:link, a:visited, a:hover, a:active {
 
 #compareGlobal{float:right;}
 
-.button{border-radius:4px; padding:0.8em; color:#FFF;background-color:#20beff;border:1px solid #20beff  ;font-size:0.8em; width:6em; 
+.button{border-radius:4px; padding:0.8em; color:#FFF;background-color:#20beff;border:1px solid #20beff  ;font-size:0.8em; width:6em;
 cursor: pointer; transition: background-color 0.5s ease;  box-shadow: 0 0 4px #AFAFAF; text-align:center; margin:2% 0;}
 .button:hover{background-color: #198c5e;border:1px solid #198c5e; transition: background-color 0.5s ease}
 
@@ -57,13 +57,13 @@ cursor: pointer; transition: background-color 0.5s ease;  box-shadow: 0 0 4px #A
 input[type=text] {
 	padding: 0.4em;
 	height:2.5em;
-    width: 75%;
-    float:left;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-    border-radius:4px;
-    margin-bottom:1%;
-    background-color: #FFF !important 
+  width: 75%;
+  float:left;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+  border-radius:4px;
+  margin-bottom:1%;
+  background-color: #FFF !important
 }
 
 ul, ol{padding:0.3em; margin: 0}
@@ -73,43 +73,43 @@ ul, ol{padding:0.3em; margin: 0}
 
 /* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow-y: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow-y: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
 .modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 85%;
-    height:60%;
-    overflow-y: scroll;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 85%;
+  height:60%;
+  overflow-y: scroll;
 }
 
 /* The Close Button */
 .close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 #modalSpace, .capsule{text-align: center; padding: 0.2em 0;display: block;}

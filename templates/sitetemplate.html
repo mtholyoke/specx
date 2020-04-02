@@ -1,52 +1,52 @@
 <!-- mlweb/templates/index.html -->
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Spectrum Explorer</title>
-		<link rel="stylesheet" href="../static/css/master.css">
-        <script src="../static/js/libraries/d3.min.js"></script>
-        <script src="../static/js/libraries/jquery-3.3.1.min.js"></script>
-        
-        {% block additional_css %}
-        {% endblock %}
-    </head>
-    <body>
-    <div id="Header">
-    	<section class='left' id="headerLeft"><a href="/"><h2>Spectrum Data Explorer</h2></a></section>
-    	<section class='right' id="headerRight">
-            <span class='button' id='compareGlobal'>Compare</span>
-          <input class='textbox' id='search' type="text" name="search" placeholder="Search.." onkeypress="searchClick(event)" />   
-        </section>
-    	<section id="headerCenter">
-           
-        </section>
-    </div>
-    <div id='Content'>
-            <!-- The Modal -->
-            <div id="myModal" class="modal">
+  <head>
+    <meta charset="utf-8">
+    <title>Spectrum Explorer</title>
+    <link rel="stylesheet" href="../static/css/master.css">
+    <script src="../static/js/libraries/d3.min.js"></script>
+    <script src="../static/js/libraries/jquery-3.3.1.min.js"></script>
 
-              <!-- Modal content -->
-              <div class="modal-content">
-                <span class="modalclose">&times;</span>
-                <div id='modalSpace'>
-                    
-                </div>
-              </div>
+    {% block additional_css %}
+    {% endblock %}
+  </head>
+  <body>
+  <div id="Header">
+    <section class='left' id="headerLeft"><a href="/"><h2>Spectrum Data Explorer</h2></a></section>
+    <section class='right' id="headerRight">
+      <span class='button' id='compareGlobal'>Compare</span>
+      <input class='textbox' id='search' type="text" name="search" placeholder="Search.." onkeypress="searchClick(event)" />
+    </section>
+    <section id="headerCenter">
 
-            </div>
-    	{% block body %}
-		{% endblock %}
-	</div>
-    <script type="text/javascript">
-        function searchClick(e){
-            if (e.keyCode == 13) {
-                var tb = document.getElementById("search");
-                window.location.href = "http://"+window.location.hostname+":"+window.location.port+'/search/'+tb.value;
-                return false;
-            }
-        }
-    </script>
-    <script src="../static/js/d3/compareGlobal.js"></script>
-    </body>
+    </section>
+  </div>
+  <div id='Content'>
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+        <span class="modalclose">&times;</span>
+        <div id='modalSpace'>
+
+        </div>
+        </div>
+
+      </div>
+    {% block body %}
+    {% endblock %}
+  </div>
+  <script type="text/javascript">
+    function searchClick(e){
+      if (e.keyCode == 13) {
+        var tb = document.getElementById("search");
+        window.location.href = "http://"+window.location.hostname+":"+window.location.port+'/search/'+tb.value;
+        return false;
+      }
+    }
+  </script>
+  <script src="../static/js/d3/compareGlobal.js"></script>
+  </body>
 </html>

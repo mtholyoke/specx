@@ -1,189 +1,189 @@
-{% extends 'sitetemplate.html' %} 
+{% extends 'sitetemplate.html' %}
 {% block additional_css %}
-    <link rel="stylesheet" type="text/css" href="../static/css/sample.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/sample.css">
 {% endblock%}
 {% block body %}
-	
-	<h2 id='sample'>Sample Name: <span class='highlight'>{{name}}</span></h2>
-	<div>
-		<h3 class='inline'>Group: <span class='highlight' ><a href='/group/{{group}}'>{{group}}</a></span></h3>
-		<h3 class='inline'>Dana Group: <span  class='highlight'>{{dana_group}}</span></h3>
-		<h3 class='inline'>Owner: <span  class='highlight'>{{owner}}</span></h3>
-		<h3 class='inline'>Pubs: <span  class='highlight'>{{pubs}}</span></h3>
-		<div class='button compare'> Compare </div>
-	</div>
+  
+  <h2 id='sample'>Sample Name: <span class='highlight'>{{name}}</span></h2>
+  <div>
+    <h3 class='inline'>Group: <span class='highlight' ><a href='/group/{{group}}'>{{group}}</a></span></h3>
+    <h3 class='inline'>Dana Group: <span  class='highlight'>{{dana_group}}</span></h3>
+    <h3 class='inline'>Owner: <span  class='highlight'>{{owner}}</span></h3>
+    <h3 class='inline'>Pubs: <span  class='highlight'>{{pubs}}</span></h3>
+    <div class='button compare'> Compare </div>
+  </div>
 
-	{% for sample in sampledata %}
-    <div class='block border curvedBox graphbox' d-sample='{{sample.sample_no}}'>
-        <div class='check'>
-            <input class='checkmark' type="checkbox" d-sample='{{sample.sample_no}}'>
-        </div>
-        <svg id=p{{sample.sample_no}} d-sample='{{sample.sample_no}}' class='samplesvg' height=170 width=270></svg><br />
-        <a class='sample' href={{sample.datafile_display_link}}> {{sample.temperature}}(K) Dataset (Counts)</a>
-        <a class='sample' href={{sample.textfile_display_link}}> {{sample.temperature}}(K) Dataset (Text)</a>
-        <p class="time"> Sample Taken: {{sample.sampletakentime}}</p>
-        <p class="time"> Last Update: {{sample.last_modified_time}} </p>
+  {% for sample in sampledata %}
+  <div class='block border curvedBox graphbox' d-sample='{{sample.sample_no}}'>
+    <div class='check'>
+      <input class='checkmark' type="checkbox" d-sample='{{sample.sample_no}}'>
     </div>
-	{% endfor %}
+    <svg id=p{{sample.sample_no}} d-sample='{{sample.sample_no}}' class='samplesvg' height=170 width=270></svg><br />
+    <a class='sample' href={{sample.datafile_display_link}}> {{sample.temperature}}(K) Dataset (Counts)</a>
+    <a class='sample' href={{sample.textfile_display_link}}> {{sample.temperature}}(K) Dataset (Text)</a>
+    <p class="time"> Sample Taken: {{sample.sampletakentime}}</p>
+    <p class="time"> Last Update: {{sample.last_modified_time}} </p>
+  </div>
+  {% endfor %}
 
-	<script type="text/javascript">
-		var allData = [];
-		// Define the div for the tooltip and provide a textDiv to show the content of the tooltip
-		var div = d3.select("body").append("div")	
-			  .attr("class", "tip"); //Used for styling the tooltip container div
-		var textDiv = div.append('div').attr('class','textdiv');
+  <script type="text/javascript">
+    var allData = [];
+    // Define the div for the tooltip and provide a textDiv to show the content of the tooltip
+    var div = d3.select("body").append("div")
+        .attr("class", "tip"); //Used for styling the tooltip container div
+    var textDiv = div.append('div').attr('class','textdiv');
 
-		var sampleURL = window.location.href.replace('sample','plot')
-
-
-        d3.json(sampleURL, function (error, data) {
-            if (data !== null) {
-                allData = data;
-                var height = 120, width = 200;
-                data.forEach(function (sample) {
-                    loadSample(d3.select('#p' + sample.sample_no), sample.plot, height, width);
-                });
-            }
-            else {
-                console.log(error);
-            }
-		});
-
-		// When the user clicks the map, open the modal -- individual view
-		d3.selectAll('.samplesvg').on('click', function() {
-			d3.select('#modalSpace').selectAll('*').remove();
-		    modal.style.display = "block";
-		    var selectedSample = d3.select(this).attr('d-sample').trim();
-		    allData.forEach(function(sample){
-		    	if(sample.sample_no === selectedSample){
-		    		var base = d3.select('#modalSpace');
-		    		var eachSample = base.append('div').attr('class','capsule').attr('d-sample',sample.sample_no);
-		    		var height = 310, width = 480;	
-		    		eachSample.append('span').text(sample.sample_name +"|"+sample.temperature+' (K)');
-		    		eachSample.append('a').attr('href', '/datafile/'+sample.sample_no).text('Dataset (Counts)')
-		    			.attr('class','subsamplelink');
-		    		eachSample.append('a').attr('href', '/textfile/'+sample.sample_no).text('Dataset (Text)')
-		    			.attr('class','subsamplelink');
-		    		eachSample.append('svg').attr('height','350').attr('width','540')
-		    						  .attr('id','mp'+selectedSample);
-
-					loadSample(d3.select('#mp'+sample.sample_no), sample.plot, height, width);
-		    	}
-			});
-		});
-
-		d3.select('.compare').on('click', function() {
-			var allchecks = document.getElementsByClassName("checkmark");
-			var selectedSampleList = [];
-			for(var i=0; i < allchecks.length; i++){
-				if(allchecks[i].checked == true)
-					selectedSampleList.push(allchecks[i].getAttribute('d-sample'));
-			}
-
-			//Plot the selected samples
-			if(selectedSampleList.length > 0){
-				d3.select('#modalSpace').selectAll('*').remove();
-				var base = d3.select('#modalSpace');
-				var XminOfMin = Number.POSITIVE_INFINITY, XmaxOfMax = Number.NEGATIVE_INFINITY, YminOfMin = Number.POSITIVE_INFINITY, YmaxOfMax = Number.NEGATIVE_INFINITY;
-				var xThisMin, yThisMin, xThisMax, yThisMax;
-				var allGraphSVG = base.append('svg').attr('height','300').attr('width','600')
-			    						  .attr('id','allgraph');
-		    	modal.style.display = "block";
-		    	d3.select('.modal-content').style('float','left').style('position','absolute')
-		    	.style('left','6%');
-		    	plotArray = []
-		    	allData.forEach(function(sample){
-			    	if(selectedSampleList.indexOf(sample.sample_no) >= 0){
-			  			var selectedIndex = selectedSampleList.indexOf(sample.sample_no);
-			    		var eachSample = base.append('span').attr('class','capsule').attr('d-sample',sample.sample_no);
-			    		eachSample.append('span').text(sample.sample_name +"|"+sample.temperature+' (K)').style('color', arrayColors[selectedIndex]);
-			    		eachSample.append('a').attr('href', '/datafile/'+sample.sample_no).text('Dataset (Counts)')
-			    			.attr('class','subsamplelink');
-			    		eachSample.append('a').attr('href', '/textfile/'+sample.sample_no).text('Dataset (Text)')
-			    			.attr('class','subsamplelink');
-			    		
-
-			    		xThisMin = d3.min(sample.plot.map(o => o.x));
-			    		xThisMax = d3.max(sample.plot.map(o => o.x));
-
-			    		yThisMin = d3.min(sample.plot.map(o => o.y));
-			    		yThisMax = d3.max(sample.plot.map(o => o.y));
-
-			    		if(xThisMin < XminOfMin)
-			    			XminOfMin = xThisMin
-
-			    		if(yThisMin < YminOfMin)
-			    			YminOfMin = yThisMin
-
-			    		if(xThisMax > XmaxOfMax)
-			    			XmaxOfMax = xThisMax
-
-			    		if(yThisMax > YmaxOfMax)
-			    			YmaxOfMax =  yThisMax
-
-						plotArray.push(sample.plot);
-			    	}
-				});
-				loadMultiSamples(allGraphSVG, plotArray, XminOfMin, XmaxOfMax, YminOfMin, YmaxOfMax, 250, 500)
-			}
-
-		});
-
-		//When the user selects a plot -- send to server to add to compare bag
-		d3.selectAll('.checkmark').on('click', function(){
-		    var selectedSample = d3.select(this).attr('d-sample').trim();
-		    $.ajax({
-		    	url: '/addToCompare',
-	            data: selectedSample,
-	            type: 'POST',
-	            success: function(response) {
-	                console.log(response);
-	            },
-	            error: function(error) {
-	                console.log(error);
-	            }
-		    });
-		})
+    var sampleURL = window.location.href.replace('sample','plot')
 
 
-        function loadSample(svg, data, height, width) {
-            var margin = { top: 10, right: 20, bottom: 10, left: 50 };
-			var group = svg.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-			
-			var xScale = d3.scaleLinear()
-						.domain(d3.extent(data,d => d.x))
-						.range([0, width]).nice(10); 
-			var yScale = d3.scaleLinear()
-						.domain(d3.extent(data,d => d.y))
-						.range([0,height]).nice(10); 
-			var xAxisGroup = group.append('g');
-			var yAxisGroup = group.append('g');
+    d3.json(sampleURL, function (error, data) {
+      if (data !== null) {
+        allData = data;
+        var height = 120, width = 200;
+        data.forEach(function (sample) {
+          loadSample(d3.select('#p' + sample.sample_no), sample.plot, height, width);
+        });
+      }
+      else {
+        console.log(error);
+      }
+    });
 
-			var xAxis = d3.axisBottom().ticks(5).scale(xScale)
-					.tickPadding(5).tickSize(-height); 
-			var yAxis = d3.axisLeft().ticks(5).scale(yScale)
-					.tickPadding(5).tickSize(-width);
-			var line = d3.line()
-					.x(d => xScale(d.x))
-					.y(d => yScale(d.y))
-					.curve(d3.curveMonotoneX)
-			var path = group.append("path")
-					.datum(data) 
-					.attr("class", "line")
-					.attr("d", line); 
-			
-			xAxisGroup.attr("transform", "translate(0," + height + ")").call(xAxis);
-			yAxisGroup.call(yAxis);
-			group.append("text")
-						.attr('class','axeslabel')
-						.attr("text-anchor", "middle")
-						.attr("transform", "translate("+ (-40) +","+(height/2)+")rotate(-90)")
-						.text("% Transmission");
-			group.append("text")
-				.attr('class','axeslabel')
-				.attr("text-anchor", "middle") 
-				.attr("transform", "translate("+ (width/2) +","+(height-(-25))+")") 
-				.text("(Velocity(mm/s))");
-		}
-	</script>
+    // When the user clicks the map, open the modal -- individual view
+    d3.selectAll('.samplesvg').on('click', function() {
+      d3.select('#modalSpace').selectAll('*').remove();
+      modal.style.display = "block";
+      var selectedSample = d3.select(this).attr('d-sample').trim();
+      allData.forEach(function(sample){
+        if(sample.sample_no === selectedSample){
+          var base = d3.select('#modalSpace');
+          var eachSample = base.append('div').attr('class','capsule').attr('d-sample',sample.sample_no);
+          var height = 310, width = 480;
+          eachSample.append('span').text(sample.sample_name +"|"+sample.temperature+' (K)');
+          eachSample.append('a').attr('href', '/datafile/'+sample.sample_no).text('Dataset (Counts)')
+            .attr('class','subsamplelink');
+          eachSample.append('a').attr('href', '/textfile/'+sample.sample_no).text('Dataset (Text)')
+            .attr('class','subsamplelink');
+          eachSample.append('svg').attr('height','350').attr('width','540')
+                    .attr('id','mp'+selectedSample);
+
+          loadSample(d3.select('#mp'+sample.sample_no), sample.plot, height, width);
+        }
+      });
+    });
+
+    d3.select('.compare').on('click', function() {
+      var allchecks = document.getElementsByClassName("checkmark");
+      var selectedSampleList = [];
+      for(var i=0; i < allchecks.length; i++){
+        if(allchecks[i].checked == true)
+          selectedSampleList.push(allchecks[i].getAttribute('d-sample'));
+      }
+
+      //Plot the selected samples
+      if(selectedSampleList.length > 0){
+        d3.select('#modalSpace').selectAll('*').remove();
+        var base = d3.select('#modalSpace');
+        var XminOfMin = Number.POSITIVE_INFINITY, XmaxOfMax = Number.NEGATIVE_INFINITY, YminOfMin = Number.POSITIVE_INFINITY, YmaxOfMax = Number.NEGATIVE_INFINITY;
+        var xThisMin, yThisMin, xThisMax, yThisMax;
+        var allGraphSVG = base.append('svg').attr('height','300').attr('width','600')
+                      .attr('id','allgraph');
+        modal.style.display = "block";
+        d3.select('.modal-content').style('float','left').style('position','absolute')
+        .style('left','6%');
+        plotArray = []
+        allData.forEach(function(sample){
+          if(selectedSampleList.indexOf(sample.sample_no) >= 0){
+              var selectedIndex = selectedSampleList.indexOf(sample.sample_no);
+            var eachSample = base.append('span').attr('class','capsule').attr('d-sample',sample.sample_no);
+            eachSample.append('span').text(sample.sample_name +"|"+sample.temperature+' (K)').style('color', arrayColors[selectedIndex]);
+            eachSample.append('a').attr('href', '/datafile/'+sample.sample_no).text('Dataset (Counts)')
+              .attr('class','subsamplelink');
+            eachSample.append('a').attr('href', '/textfile/'+sample.sample_no).text('Dataset (Text)')
+              .attr('class','subsamplelink');
+
+
+            xThisMin = d3.min(sample.plot.map(o => o.x));
+            xThisMax = d3.max(sample.plot.map(o => o.x));
+
+            yThisMin = d3.min(sample.plot.map(o => o.y));
+            yThisMax = d3.max(sample.plot.map(o => o.y));
+
+            if(xThisMin < XminOfMin)
+              XminOfMin = xThisMin
+
+            if(yThisMin < YminOfMin)
+              YminOfMin = yThisMin
+
+            if(xThisMax > XmaxOfMax)
+              XmaxOfMax = xThisMax
+
+            if(yThisMax > YmaxOfMax)
+              YmaxOfMax =  yThisMax
+
+            plotArray.push(sample.plot);
+          }
+        });
+        loadMultiSamples(allGraphSVG, plotArray, XminOfMin, XmaxOfMax, YminOfMin, YmaxOfMax, 250, 500)
+      }
+
+    });
+
+    //When the user selects a plot -- send to server to add to compare bag
+    d3.selectAll('.checkmark').on('click', function(){
+      var selectedSample = d3.select(this).attr('d-sample').trim();
+      $.ajax({
+        url: '/addToCompare',
+        data: selectedSample,
+        type: 'POST',
+        success: function(response) {
+          console.log(response);
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    })
+
+
+    function loadSample(svg, data, height, width) {
+      var margin = { top: 10, right: 20, bottom: 10, left: 50 };
+      var group = svg.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      var xScale = d3.scaleLinear()
+            .domain(d3.extent(data,d => d.x))
+            .range([0, width]).nice(10);
+      var yScale = d3.scaleLinear()
+            .domain(d3.extent(data,d => d.y))
+            .range([0,height]).nice(10);
+      var xAxisGroup = group.append('g');
+      var yAxisGroup = group.append('g');
+
+      var xAxis = d3.axisBottom().ticks(5).scale(xScale)
+          .tickPadding(5).tickSize(-height);
+      var yAxis = d3.axisLeft().ticks(5).scale(yScale)
+          .tickPadding(5).tickSize(-width);
+      var line = d3.line()
+          .x(d => xScale(d.x))
+          .y(d => yScale(d.y))
+          .curve(d3.curveMonotoneX)
+      var path = group.append("path")
+          .datum(data)
+          .attr("class", "line")
+          .attr("d", line);
+
+      xAxisGroup.attr("transform", "translate(0," + height + ")").call(xAxis);
+      yAxisGroup.call(yAxis);
+      group.append("text")
+            .attr('class','axeslabel')
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate("+ (-40) +","+(height/2)+")rotate(-90)")
+            .text("% Transmission");
+      group.append("text")
+        .attr('class','axeslabel')
+        .attr("text-anchor", "middle")
+        .attr("transform", "translate("+ (width/2) +","+(height-(-25))+")")
+        .text("(Velocity(mm/s))");
+    }
+  </script>
 {% endblock %}

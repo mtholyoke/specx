@@ -1,39 +1,39 @@
 /*BadFiles.html*/
 body {
-    background-color: #FFF;
+  background-color: #FFF;
 }
 
 #Content {
-    margin: 5% 4%;
+  margin: 5% 4%;
 }
 
 .listBox {
-    padding: 2%;
-    background-color: #FFF;
-    min-height: 800px
+  padding: 2%;
+  background-color: #FFF;
+  min-height: 800px
 }
 
 li {
-    display: list-item !important;
-    list-style-position: inside;
+  display: list-item !important;
+  list-style-position: inside;
 }
 
 .left {
-    float: left;
-    width: 45%;
-    vertical-align: middle;
+  float: left;
+  width: 45%;
+  vertical-align: middle;
 }
 
 .right {
-    float: right;
-    width: 45%;
-    vertical-align: middle;
+  float: right;
+  width: 45%;
+  vertical-align: middle;
 }
 
 .listitem {
-    float: left;
+  float: left;
 }
 
 .listitem:hover {
-    background-color: none
+  background-color: none
 }

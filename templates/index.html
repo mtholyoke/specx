@@ -1,27 +1,27 @@
 {% extends 'sitetemplate.html' %} 
 {% block additional_css %}
-    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/index.css">
 {% endblock%}
 {% block body %}
-	<div class='subcontent'>
-		<div class='left groupSet'>
-			<h2> Groups </h2>
-			<ul>
-			{% for g in data %}
-			    <li class='listitem'><a href=../group/{{ g.groupurl }}>{{ g.groupname }}</a></li>
-			{% endfor %}
-			</ul>
-		</div>
-		<div class='right sampleSet'>
-			<ul>
-			<h2> {{ group_folder }}</h2>
-			{% for sampleset in sampledata %}
-			    <li class='listitem'>
-                    <span class='sample_entry {{sampleset.temp_class}}'><a class="sl" href="">{{ sampleset.sample_name }}</a></span></a>
-			    	<span class='sample_owner'> {{ sampleset.owner }}</span>
-			    </li>
-			{% endfor %}
-			</ul>
-		</div>
-	</div>
+  <div class='subcontent'>
+    <div class='left groupSet'>
+      <h2> Groups </h2>
+      <ul>
+      {% for g in data %}
+        <li class='listitem'><a href=../group/{{ g.groupurl }}>{{ g.groupname }}</a></li>
+      {% endfor %}
+      </ul>
+    </div>
+    <div class='right sampleSet'>
+      <ul>
+      <h2> {{ group_folder }}</h2>
+      {% for sampleset in sampledata %}
+        <li class='listitem'>
+          <span class='sample_entry {{sampleset.temp_class}}'><a class="sl" href="">{{ sampleset.sample_name }}</a></span></a>
+          <span class='sample_owner'> {{ sampleset.owner }}</span>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
 {% endblock %}

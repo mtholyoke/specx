@@ -11,9 +11,9 @@ body{background-color:#FFF;}
 .listitem {float: left;}
 
 .bolden {
-    font-weight: bold
+  font-weight: bold
 }
 
 .unbolden {
-    font-weight: normal
+  font-weight: normal
 }

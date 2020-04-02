@@ -4,21 +4,21 @@
 {% endblock%}
 {% block body %}
 <div class='subcontent'>
-    <div class='left'>
-        <h3> Files Not in Logbook but are in the Server  | Total:{{notbookcount}}</h3>
-        <ol>
-            {% for g in notbook %}
-            <li class='listitem'>{{g}}</li>
-            {% endfor %}
-        </ol>
-    </div>
-    <div class='right'>
-        <h3> Files Not in Server but are in the Logbook  | Total: {{notservercount}}</h3>
-        <ol>
-            {% for g in notserver %}
-            <li class='listitem'>{{g}}</li>
-            {% endfor %}
-        </ol>
-    </div>
+  <div class='left'>
+    <h3> Files Not in Logbook but are in the Server  | Total:{{notbookcount}}</h3>
+    <ol>
+      {% for g in notbook %}
+      <li class='listitem'>{{g}}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class='right'>
+    <h3> Files Not in Server but are in the Logbook  | Total: {{notservercount}}</h3>
+    <ol>
+      {% for g in notserver %}
+      <li class='listitem'>{{g}}</li>
+      {% endfor %}
+    </ol>
+  </div>
 </div>
 {% endblock %}

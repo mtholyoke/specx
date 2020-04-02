@@ -1,31 +1,31 @@
 {% extends 'sitetemplate.html' %} 
 {% block additional_css %}
-    <link rel="stylesheet" type="text/css" href="../static/css/search.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/search.css">
 {% endblock%}
 {% block body %}
-	<div class='subcontent'>
-		<div class='header'>Showing search results for <span class='highlight'>{{ query}}</span></div>
-		<div id='searchResults'>
-			<div class='left resultSet'>
-			<div class='subheader'>Groups</div>
-				<ul>
-				{% for g in group %}
-				    <li class='listitem'><a href=/group/{{g}}>{{ g }}</a></li>
-				{% endfor %}
-				</ul>
-			</div>
-			<div class='right resultSet'>
-			<div class='subheader'>Samples</div>
-				<ul>
-				{% for s in sampleset %}
-				    <li class='listitem'>
-				    	<a class='sample_entry {{s.temp_class}}' href=/sample/{{s.url}}>{{ s.sample_name }}</a>
-				    	<span class='sample_owner'> {{ s.owner }}</span>
-				    </li>
-				{% endfor %}
-				</ul>
-			</div>
+  <div class='subcontent'>
+    <div class='header'>Showing search results for <span class='highlight'>{{ query}}</span></div>
+    <div id='searchResults'>
+      <div class='left resultSet'>
+      <div class='subheader'>Groups</div>
+        <ul>
+        {% for g in group %}
+          <li class='listitem'><a href=/group/{{g}}>{{ g }}</a></li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class='right resultSet'>
+      <div class='subheader'>Samples</div>
+        <ul>
+        {% for s in sampleset %}
+          <li class='listitem'>
+            <a class='sample_entry {{s.temp_class}}' href=/sample/{{s.url}}>{{ s.sample_name }}</a>
+            <span class='sample_owner'> {{ s.owner }}</span>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
 
-		</div>
-	</div>
+    </div>
+  </div>
 {% endblock %}

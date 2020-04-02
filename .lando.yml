@@ -3,4 +3,7 @@ services:
   appserver:
     type: python:3.7
     build_as_root:
-      - pip3 install flask xlrd numpy cacheout pyyaml
+      - pip3 install flask xlrd numpy cacheout pyyaml pycodestyle
+tooling:
+  pycodestyle:
+    service: appserver
