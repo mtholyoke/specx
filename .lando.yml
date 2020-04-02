@@ -1,0 +1,6 @@
+name: mossbauer
+services:
+  appserver:
+    type: python:3.7
+    build_as_root:
+      - pip3 install flask xlrd numpy cacheout pyyaml
