@@ -2,9 +2,28 @@ from flask import Flask, render_template, jsonify, request, send_file, session
 import load_mossbauer
 import os
 import csv
+import yaml
 
 app = Flask(__name__, static_url_path='/static')
-app.secret_key = 'appsecret'
+
+config = {
+    'host': '0.0.0.0',
+    'port': '51515',
+    'secret_key': 'Nautilus',
+    'debug': False,
+}
+try:
+    config_file = open('config.yml')
+    config_yaml = yaml.safe_load(config_file)
+    for key in config.keys():
+        if key in config_yaml.keys():
+            config[key] = config_yaml[key]
+    config_file.close()
+except IOError:
+    # TODO: replace with logging
+    print("Can’t read config.yml; using defaults")
+
+app.secret_key = config['secret_key']
 
 
 @app.route("/")
@@ -146,4 +165,8 @@ def clearCompareList():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=51515, debug=False)
+    app.run(
+        host=config['host'],
+        port=config['port'],
+        debug=config['debug']
+    )

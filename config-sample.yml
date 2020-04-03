@@ -1,0 +1,18 @@
+### Specx configuration
+
+### The values below are defaults. To override any of them, make a copy
+### of this file named “config.yml” and uncomment the relevant line(s).
+
+### The hostname or IP address to listen on. Set this to 0.0.0.0
+### to be available regardless of the host’s name or IP address.
+# host: 0.0.0.0
+
+### The port to listen on.
+# port: 51515
+
+### Used for signing cookies for session management. A long random
+### string is best.
+# secret_key: Nautilus
+
+### Provides extra info about problems. Don’t use in production.
+# debug: False

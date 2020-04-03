@@ -1,4 +1,5 @@
-pip install flask
-pip install xlrd
-pip install numpy
-pip install cacheout
+pip3 install flask
+pip3 install xlrd
+pip3 install numpy
+pip3 install cacheout
+pip3 install pyyaml
