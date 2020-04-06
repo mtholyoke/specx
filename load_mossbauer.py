@@ -1,4 +1,4 @@
-from objects import mossbauer_sample as m
+datafrom objects import mossbauer_sample as m
 from objects import mossbauer_sample_set as mset
 from cacheout import Cache
 import urllib.parse
@@ -13,7 +13,7 @@ import glob
 cache = Cache()
 
 # SPECTRA_PATH = 'A:/UMass Projects/Superman - Mats/Spectrum Explorer/spectra/';
-SPECTRA_PATH = '/srv/nfs/common/spectra/'
+SPECTRA_PATH = '/var/www/mossbauer.mtholyoke.edu/data_Moss/'
 
 
 def to_digit(text):
@@ -21,7 +21,7 @@ def to_digit(text):
 
 
 def get_rows_from_excel():
-    file = SPECTRA_PATH + 'Mossbauer/MHC/mlogbook.xlsx'
+    file = SPECTRA_PATH + 'mlogbook.xlsx'
     offset = 1
     workbook = xlrd.open_workbook(file)
     worksheet = workbook.sheet_by_index(0)
@@ -44,12 +44,12 @@ def list_badfiles():
     for row in rows:
         sample = m.mossbauer_sample()
         sample.sample_no = str(row[0]).replace('.0', '')
-        sample.sampleurl = SPECTRA_PATH + 'Mossbauer/MHC/original/' + sample.sample_no + '.cnt'
+        sample.sampleurl = SPECTRA_PATH + 'data/' + sample.sample_no + '.cnt'
         ls_files_in_book.append(sample.sampleurl)
         if not os.path.exists(sample.sampleurl):
             # File does not exist
             ls_not_in_server.append(sample.sampleurl)
-    ls_files_in_dir = glob.glob(SPECTRA_PATH+'Mossbauer/MHC/original/*.cnt')
+    ls_files_in_dir = glob.glob(SPECTRA_PATH+'data/*.cnt')
     ls_not_book = [item for item in ls_files_in_dir if item not in ls_files_in_book]
     return ls_not_book, ls_not_in_server
 
@@ -77,7 +77,7 @@ def load_data():
             sample.multitemp = row[11]
             sample.datafile_display_link = '/datafile/'+sample.sample_no
             sample.textfile_display_link = '/textfile/'+sample.sample_no
-            sample.sampleurl = SPECTRA_PATH + 'Mossbauer/MHC/original/' + sample.sample_no + '.cnt'
+            sample.sampleurl = SPECTRA_PATH + 'data/' + sample.sample_no + '.cnt'
             try:
                 sample.sampletakentime = datetime.strftime(datetime.strptime(sample.sample_no[:6], '%y%m%d'), '%b %d, %Y')
             except ValueError:
@@ -92,11 +92,11 @@ def load_data():
 
 
 def get_data_file(cnt_no):
-    return SPECTRA_PATH + 'Mossbauer/MHC/original/' + cnt_no + '.cnt'
+    return SPECTRA_PATH + 'data/' + cnt_no + '.cnt'
 
 
 def get_text_file(cnt_no):
-    return SPECTRA_PATH + 'Mossbauer/MHC/original/' + cnt_no + '.txt'
+    return SPECTRA_PATH + 'data/' + cnt_no + '.txt'
 
 
 def get_group_names():
