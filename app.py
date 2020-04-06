@@ -1,7 +1,8 @@
 from flask import Flask, render_template, jsonify, request, send_file, session
+from pathlib import Path
+import csv
 import load_mossbauer
 import os
-import csv
 import yaml
 
 app = Flask(__name__, static_url_path='/static')
@@ -12,6 +13,7 @@ config = {
     'secret_key': 'Nautilus',
     'debug': False,
 }
+config_name = os.path.join(Path(__file__).parent, 'config.yml')
 try:
     config_file = open('config.yml')
     config_yaml = yaml.safe_load(config_file)
@@ -21,7 +23,7 @@ try:
     config_file.close()
 except IOError:
     # TODO: replace with logging
-    print("Can’t read config.yml; using defaults")
+    print(f'Can’t read {config_name}; using defaults')
 
 app.secret_key = config['secret_key']
 
