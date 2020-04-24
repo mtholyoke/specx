@@ -3,3 +3,4 @@ __pycache__
 config.yml
 data_Moss/*
 data_Moss.old/*
+htdocs/*
