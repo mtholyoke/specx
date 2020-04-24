@@ -2,9 +2,12 @@ from flask import Flask, render_template, jsonify, request, send_file, session
 from pathlib import Path
 import csv
 import load_mossbauer
+import logging
 import os
 import yaml
 
+# TODO: fix the logging
+logging.basicConfig(filename='/var/log/specx')
 app = Flask(__name__, static_url_path='/static')
 
 config = {
@@ -15,7 +18,7 @@ config = {
 }
 config_name = os.path.join(Path(__file__).parent, 'config.yml')
 try:
-    config_file = open('config.yml')
+    config_file = open(config_name)
     config_yaml = yaml.safe_load(config_file)
     for key in config.keys():
         if key in config_yaml.keys():
